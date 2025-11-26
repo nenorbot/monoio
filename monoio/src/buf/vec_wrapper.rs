@@ -173,7 +173,7 @@ unsafe impl IoVecBuf for IoVecMeta {
     }
     #[cfg(unix)]
     fn read_iovec_len(&self) -> usize {
-        self.data.len()
+        self.data.len() - self.offset
     }
     #[cfg(windows)]
     fn read_wsabuf_ptr(&self) -> *const WSABUF {
