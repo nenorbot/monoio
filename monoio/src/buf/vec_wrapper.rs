@@ -119,10 +119,10 @@ impl IoVecMeta {
                         return;
                     }
                     std::cmp::Ordering::Greater => {
-                        let _next_ptr = unsafe { iovec.iov_base.add(amt) };
-                        // iovec.iov_base = next_ptr;
+                        let base = unsafe { iovec.iov_base.add(amt) };
                         println!("gt: at {offset}, amt = {amt}");
                         iovec.iov_len -= amt;
+                        iovec.iov_base = base;
                         self.offset = offset;
                         return;
                     }
