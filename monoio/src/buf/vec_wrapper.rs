@@ -99,6 +99,7 @@ impl IoVecMeta {
     pub(crate) fn consume(&mut self, mut amt: usize) {
         #[cfg(unix)]
         {
+            let a = amt;
             if amt == 0 {
                 return;
             }
@@ -123,7 +124,7 @@ impl IoVecMeta {
                     }
                 }
             }
-            panic!("try to consume more than owned")
+            panic!("try to consume more than owned. read {a}, delta: {amt}")
         }
         #[cfg(windows)]
         {
