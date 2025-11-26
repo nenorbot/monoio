@@ -108,17 +108,20 @@ impl IoVecMeta {
                 match iovec.iov_len.cmp(&amt) {
                     std::cmp::Ordering::Less => {
                         amt -= iovec.iov_len;
+                        println!("ls: consumed {offset}, amt = {amt}");
                         offset += 1;
                         continue;
                     }
                     std::cmp::Ordering::Equal => {
+                        println!("eq: consumed {offset}, amt = {amt}");
                         offset += 1;
                         self.offset = offset;
                         return;
                     }
                     std::cmp::Ordering::Greater => {
-                        let next_ptr = unsafe { iovec.iov_base.add(amt) };
-                        iovec.iov_base = next_ptr;
+                        let _next_ptr = unsafe { iovec.iov_base.add(amt) };
+                        // iovec.iov_base = next_ptr;
+                        println!("gt: at {offset}, amt = {amt}");
                         iovec.iov_len -= amt;
                         self.offset = offset;
                         return;
